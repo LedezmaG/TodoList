@@ -4,7 +4,7 @@ Este proyecto es una aplicación web de lista de tareas creada con React y MockA
 
 ## Instalación
 
-1. Clona este repositorio: `git clone https://github.com/tu-usuario/todo-list-app.git`.
+1. Clona este repositorio: `git clone https://github.com/LedezmaG/TodoList.git`.
 2. Navega al directorio del proyecto: `cd todo-list-app`.
 3. Instala las dependencias: `npm install`.
 4. Inicia la aplicación: `npm start`.
@@ -19,9 +19,8 @@ Puedes acceder a la aplicación con las siguientes credenciales de usuario:
 
 ## Características
 
-- Crea y elimina tareas.
+- Crea edita y elimina tareas.
 - Marca tareas como completadas.
-- Filtra tareas por estado (completadas / pendientes).
 
 ## Contribuir
 
