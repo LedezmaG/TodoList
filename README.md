@@ -1,6 +1,6 @@
 # To-do List App
 
-Este proyecto es una aplicación web de lista de tareas creada con React y MockAPI.
+Este proyecto es una aplicación web de lista de tareas creada con React, Ant design y MockAPI.
 
 ## Instalación
 
