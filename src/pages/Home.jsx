@@ -13,10 +13,15 @@ import services from '../services/Api';
 import dividerBottom from '../assets/divider-round-bottom.svg'
 import deco1 from '../assets/deco-1.svg'
 import deco2 from '../assets/deco-2.svg'
+import { Messages } from '../components/Messages';
 
 export const Home = () => {
 
     const { user:{ user } } = useContext( AuthContext );
+    const [messages, setMessages] = useState({
+        state: false,
+        msg: ''
+    })
     const [notification, setNotification] = useState({
         state: false,
         type: '',
@@ -34,6 +39,7 @@ export const Home = () => {
             .required('Campo requerido'),
     })
 
+    useEffect(() => { setMessages({...messages, state: true, msg: `Bienvenido ${user.name}`}) }, [])
     useEffect(() => { handleLoad() }, [])
     
     const handleLoad = async () => {
@@ -69,6 +75,7 @@ export const Home = () => {
 
     return (
         <Row>
+            <Messages open={messages.state} msg={messages.msg} />
             <MessageAlert open={notification.state} type={notification.type} msg={notification.msg} />
             <Col span={24} className="title-section" >
                 <div className='txt-center'>

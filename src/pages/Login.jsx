@@ -5,7 +5,6 @@ import { Form, Formik } from 'formik';
 import { types } from '../types/types';
 import * as Yup from 'yup'
 
-import { Button } from 'antd';
 import { FileController } from '../components/FileController';
 import { MessageAlert } from '../components/MessageAlert';
 import services from '../services/Api';
