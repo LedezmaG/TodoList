@@ -8,12 +8,12 @@ import { TodoItem } from '../components/TodoItem';
 import { MessageAlert } from '../components/MessageAlert';
 import { FileController } from '../components/FileController';
 import { MyButton } from '../components/MyButton';
+import { Messages } from '../components/Messages';
 import services from '../services/Api';
 
 import dividerBottom from '../assets/divider-round-bottom.svg'
 import deco1 from '../assets/deco-1.svg'
 import deco2 from '../assets/deco-2.svg'
-import { Messages } from '../components/Messages';
 
 export const Home = () => {
 
