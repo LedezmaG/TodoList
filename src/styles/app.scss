@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&family=Rubik:wght@300;400;500;700&family=Source+Code+Pro&display=swap');
+@use '_colors.scss';
+
+// Base
+body {
+    margin: 0;
+    height: 100%;
+    color: #353E44;
+    background-color: #FFF;
+    font-family: 'Rubik', sans-serif;
+}
+h1, h2, h3 {
+    font-family: 'Rubik', sans-serif;
+}
+#root{
+    height: 100%;
+    overflow-x: hidden;
+}
+.wrapper {
+    height: 100vh;
+}
+.content {
+    padding: 0px;
+    background: #FFF;
+}
+
+// Todo title
+.title-section {
+    background-color: #F7FAFC;
+}
+.txt-xl {
+    margin-bottom: 24px;
+    font-size: 72px;
+    line-height: 72px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+.txt-l {
+    font-size: 20px;
+    line-height: 30px;
+    font-size: larger;
+}
+.txt-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.main-input{
+    width: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+
+    button {
+        border-radius: 0 8px 8px 0 !important;
+    }
+}
+
+// card Todo
+.list-section {
+    width: 100%;
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.card {
+    width: 60%;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #E9EEF1;
+    border-radius: 10px;
+    background-color: #F7FAFC;
+    text-align: left;
+    border-color: rgb(233, 238, 241);
+    margin-bottom: 10px;
+}
+.card-body{
+    padding: 10px 35px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+.card-done {
+    text-decoration: line-through;
+}
+
+// Item Todo
+.item-check {
+    width: 10%;
+}
+.item-body {
+    width: 80%;
+}
+.item-op {
+    width: 10%;
+}
+
+// Filed
+.field-content {
+    margin-bottom: 15px;
+    text-align: start;
+    width: 100%;
+}
+.field {
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    line-height: 1.5714285714285714;
+    list-style: none;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    background-color: #ffffff;
+    background-image: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 6px;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: #4096ff;
+        border-inline-end-width: 1px;
+    }
+    &:focus {
+        border-color: #4096ff;
+        border-inline-end-width: 1px;
+        outline: 0;
+    }
+    &.lg {
+        padding: 7px 11px;
+        font-size: 16px;
+        line-height: 1.5;
+        border-radius: 8px;
+    }
+    &.sm {
+        padding: 0px 7px;
+        border-radius: 4px;
+    }
+}
+.field-error {
+    color: #FF4D4F;
+}
+.field-label {
+    font-weight: 500;
+}
+
+// Forms
+.form-main-content {
+    display: flex;
+    width: 50%;
+}
+.form-edit-content {
+    display: flex;
+    width: 100%;
+}
+
+// img
+.divider {
+    width: 100%;
+    margin-bottom: -5px;
+}
