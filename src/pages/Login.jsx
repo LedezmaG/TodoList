@@ -9,6 +9,7 @@ import { Button } from 'antd';
 import { FileController } from '../components/FileController';
 import { MessageAlert } from '../components/MessageAlert';
 import services from '../services/Api';
+import { MyButton } from '../components/MyButton';
 
 export const Login = () => {
 
@@ -86,14 +87,13 @@ export const Login = () => {
                                 size="lg"
                                 label="Contraseña"
                             />
-                            <Button 
+                            <MyButton
                                 block
                                 size="large"
                                 type="primary"
                                 htmlType="submit"
-                            >
-                                Login
-                            </Button>
+                                content={<b>Login</b>}
+                            />
                         </Form>
                     )}
                 </Formik>

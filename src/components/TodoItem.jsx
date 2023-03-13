@@ -3,7 +3,7 @@ import { AuthContext } from '../auth/AuthContext';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup'
 
-import { Button } from 'antd'
+import { MyButton } from './MyButton';
 import {
     CheckOutlined,
     EditOutlined,
@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import { FileController } from './FileController';
 import services from '../services/Api';
+import { ConfirmMsg } from './ConfirmMsg';
 
 export const TodoItem = ({ id, isDone, message, setNotification, notification, onReload }) => {
     const { user:{user} } = useContext( AuthContext );
@@ -80,7 +81,7 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
         <div className="card">
             <div className="card-body">
                 <div className="item-check">
-                    <Button 
+                    <MyButton
                         type={ isDone ? "primary" : "default" }
                         shape="circle" 
                         size='large' 
@@ -102,12 +103,11 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
                                     name="message" 
                                     placeholder={message}
                                 />
-                                <Button 
+                                <MyButton
                                     type="primary"
                                     htmlType="submit"
-                                >
-                                    Editar
-                                </Button>
+                                    content={<b>Editar</b>}
+                                />
                             </Form>
                         )}
                         </Formik>
@@ -115,17 +115,23 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
                     }
                 </div>
                 <span className='item-op'>
-                    <Button 
+                    <MyButton
                         shape="circle" 
                         size='large' 
                         icon={<EditOutlined />} 
                         onClick={() => setEditMode(!editMode)}
                     />
-                    <Button 
-                        shape="circle" 
-                        size='large' 
-                        icon={<DeleteOutlined />} 
-                        onClick={onDelete}
+                    <ConfirmMsg
+                        title='Eliminar'
+                        description='Estas seguro de eliminar tarea?'
+                        onConfirm={onDelete}
+                        content={
+                            <MyButton
+                                shape="circle" 
+                                size='large' 
+                                icon={<DeleteOutlined />}
+                            />
+                        }
                     />
                 </span>
             </div>

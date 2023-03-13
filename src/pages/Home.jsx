@@ -3,10 +3,11 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup'
 
 import { AuthContext } from '../auth/AuthContext';
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { TodoItem } from '../components/TodoItem';
 import { MessageAlert } from '../components/MessageAlert';
 import { FileController } from '../components/FileController';
+import { MyButton } from '../components/MyButton';
 import services from '../services/Api';
 
 import dividerBottom from '../assets/divider-round-bottom.svg'
@@ -87,13 +88,13 @@ export const Home = () => {
                                 size="lg"
                                 placeholder="Escribe algo..."
                             />
-                            <Button 
+                            <MyButton 
                                 size="large"
                                 type="primary"
                                 htmlType="submit"
-                            >
-                                Agregar
-                            </Button>
+                                content={<b>Agregar</b>}
+                            />
+                            
                         </Form>
                     )}
                     </Formik>

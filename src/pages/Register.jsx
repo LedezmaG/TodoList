@@ -4,12 +4,12 @@ import { AuthContext } from '../auth/AuthContext';
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 
-import { Button } from 'antd';
 import { Link, Navigate } from 'react-router-dom';
 import { FileController } from '../components/FileController';
 import services from '../services/Api';
 import { MessageAlert } from '../components/MessageAlert';
 import { types } from '../types/types';
+import { MyButton } from '../components/MyButton';
 
 
 
@@ -113,14 +113,13 @@ export const Register = () => {
                                 label="Confirmar contraseña"
                                 size="lg"
                             />
-                            <Button 
+                            <MyButton
                                 block
                                 size="large"
                                 type="primary"
                                 htmlType="submit"
-                            >
-                                Registrarse
-                            </Button>
+                                content={<b>Registrarse</b>}
+                            />
                         </Form>
                     )}
                 </Formik>
