@@ -22,5 +22,5 @@ export const useApi = (path) => {
         }
     }
 
-    return {...state, reload: onLoad }
+    return {...state, onReload: onLoad }
 }
