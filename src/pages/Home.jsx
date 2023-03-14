@@ -9,6 +9,7 @@ import { MessageAlert } from '../components/MessageAlert';
 import { FileController } from '../components/FileController';
 import { MyButton } from '../components/MyButton';
 import { Messages } from '../components/Messages';
+import { useApi } from '../hooks/useApi';
 import services from '../services/Api';
 
 import dividerBottom from '../assets/divider-round-bottom.svg'
@@ -18,6 +19,7 @@ import deco2 from '../assets/deco-2.svg'
 export const Home = () => {
 
     const { user:{ user } } = useContext( AuthContext );
+    const { data, loading, error, onReload } = useApi(`/users/${user.id}/task`)
     const [messages, setMessages] = useState({
         state: false,
         msg: ''
@@ -27,8 +29,6 @@ export const Home = () => {
         type: '',
         msg: ''
     })
-    const [data, setData] = useState([])
-
     const formValues = {
         message: '',
     }
@@ -40,18 +40,11 @@ export const Home = () => {
     })
 
     useEffect(() => { setMessages({...messages, state: true, msg: `Bienvenido ${user.name}`}) }, [])
-    useEffect(() => { handleLoad() }, [])
-    
-    const handleLoad = async () => {
-        try {
-            const resp = await services.get(`/users/${user.id}/task`)
-            if (resp.status !== 200) throw new Error("No se pudo establecer error")
-            setData(resp.data)
-        } catch (error) {
-            console.log("🚀 ~ file: Home.jsx:44 ~ handleLoad ~ error:", error)
-            setNotification({...notification, state: true, type: 'error', msg: error.message})
+    useEffect(() => { 
+        if (error) {
+            setNotification({...notification, state: true, type: 'error', msg: error})
         }
-    }
+    }, [error])
 
     const handleSubmit = async (values, resetForm) => {
         try {
@@ -65,10 +58,9 @@ export const Home = () => {
             )
             if (resp.status !== 201) throw new Error("No se pudo establecer error")
             resetForm()
-            handleLoad()
+            onReload()
             setNotification({...notification, state: true, type: 'ok', msg: 'Tarea creada'})
         } catch (error) {
-            console.log("🚀 ~ file: Home.jsx:64 ~ handleSubmit ~ error:", error)
             setNotification({...notification, state: true, type: 'error', msg: error.message})
         }
     }
@@ -118,12 +110,12 @@ export const Home = () => {
                 <img src={dividerBottom} alt="divider" className='divider' />
             </Col>
             <Col span={24} className="list-section" >
-                {data.length > 0 && data.map((item) => <TodoItem 
+                {(!loading && data.length > 0) && data.map((item) => <TodoItem 
                         key={item.id} 
                         id={item.id}
                         isDone={item.is_done}
                         message={item.task}
-                        onReload={handleLoad} 
+                        onReload={onReload} 
                         notification={notification}
                         setNotification={setNotification}
                     />

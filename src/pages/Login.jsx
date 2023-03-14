@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../auth/AuthContext';
 import { Link, Navigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
@@ -7,17 +7,23 @@ import * as Yup from 'yup'
 
 import { FileController } from '../components/FileController';
 import { MessageAlert } from '../components/MessageAlert';
-import services from '../services/Api';
 import { MyButton } from '../components/MyButton';
+import { useApi } from '../hooks/useApi';
 
 export const Login = () => {
 
     const { dispatch } = useContext( AuthContext );
+    const { data, error } = useApi(`/users`)
     const [notification, setNotification] = useState({
         state: false,
         type: '',
         msg: ''
     })
+    useEffect(() => { 
+        if (error) {
+            setNotification({...notification, state: true, type: 'error', msg: error})
+        }
+    }, [error])
 
     const formValues = {
         user: 'Juston89',
@@ -38,10 +44,9 @@ export const Login = () => {
     const handleLogin = async (values) => {
         try {
             setNotification({...notification, state: false})
-            const resp = await services.get('/users')
-            if (resp.status !== 200) throw new Error("No se pudo establecer error")
-            const isValid = resp.data.filter((user) => ((values.user === user.user && values.pswd === user.password ) && user) )
+            const isValid = data.filter((user) => ((values.user === user.user && values.pswd === user.password ) && user) )
             if (isValid.length === 0 ) throw new Error("Usuario no existe, Intenta con usuaro o contraseña diferente")
+            localStorage.setItem('userId', isValid[0].id)
             localStorage.setItem('logged', true)
             dispatch({
                 type: types.login,
