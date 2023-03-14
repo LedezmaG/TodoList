@@ -46,7 +46,6 @@ export const Login = () => {
             setNotification({...notification, state: false})
             const isValid = data.filter((user) => ((values.user === user.user && values.pswd === user.password ) && user) )
             if (isValid.length === 0 ) throw new Error("Usuario no existe, Intenta con usuaro o contraseña diferente")
-            localStorage.setItem('userId', isValid[0].id)
             localStorage.setItem('logged', true)
             dispatch({
                 type: types.login,
