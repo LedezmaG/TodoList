@@ -16,7 +16,7 @@ export const Navegation = () => {
     useEffect(() =>{ onLoad() }, [logged, dispatch])
 
     const onLoad = async () => {
-        if ( localStorage.getItem('logged') ) {
+        if ( localStorage.getItem('logged') && user) {
             return dispatch({
                 type: types.login,
                 payload: {

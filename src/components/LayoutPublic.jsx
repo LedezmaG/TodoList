@@ -9,10 +9,10 @@ export const LayoutPublic = ({ children }) => {
         <Layout className="wrapper">
             <Content className='content'>
                 <Row className='content-auth'>
-                    <Col span={10} id='auth-section' >
+                    <Col sm={0} md={10} id='auth-section' >
                         <img src={dividerVertical} alt='divider' className='vertical-divider' />
                     </Col>
-                    <Col span={14}  >
+                    <Col  sm={44} md={14} >
                         <div className='auth-content'>
                             {children}
                         </div>

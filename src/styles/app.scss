@@ -172,3 +172,36 @@ h1, h2, h3 {
     width: 100%;
     margin-bottom: -5px;
 }
+
+
+@media (max-width: 575.98px) { 
+    // Home
+    .sub-title {
+        text-align: center;
+    }
+    .deco{
+        width: 200%;
+    }
+    .form-main-content {
+        display: block;
+        width: 80%;
+        text-align: center;
+    }
+
+    // card task
+    .card-body {
+        flex-direction: column;
+    }
+    .item-check {
+        width: 100%;
+        text-align: center;
+    }
+    .item-body {
+        width: 100%;
+        text-align: center;
+    }
+    .item-op {
+        width: 100%;
+        text-align: center;
+    }
+}

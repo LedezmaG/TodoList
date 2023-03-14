@@ -72,7 +72,7 @@ export const Home = () => {
             <Col span={24} className="title-section" >
                 <div className='txt-center'>
                     <h1 className='txt-xl'>Todo List</h1>
-                    <span className='txt-l'>Agrega tareas, pendientes o recordatorios de una manera facil y rapida.</span>
+                    <span className='txt-l sub-title'>Agrega tareas, pendientes o recordatorios de una manera facil y rapida.</span>
                     <br />
                     <Formik
                         initialValues={formValues}
@@ -101,11 +101,11 @@ export const Home = () => {
 
                 <div className="decoration right">
                     <div className='type-1 right' />
-                    <img src={deco1} alt="divider"/>
+                    <img src={deco1} alt="decoration" className='deco' />
                 </div>
                 <div className="decoration left-bottom">
                     <div className='type-2 ' />
-                    <img src={deco2} alt="divider"/>
+                    <img src={deco2} alt="decoration" className='deco'/>
                 </div>
                 <img src={dividerBottom} alt="divider" className='divider' />
             </Col>
