@@ -8,31 +8,39 @@ import { Login } from '../pages/Login';
 import { Register } from '../pages/Register';
 import { PublicRoute } from './PublicRoute';
 import { PrivateRoute } from './PrivateRoute';
+import { useApi } from '../hooks/useApi';
 
 export const Navegation = () => {
 
-    const { user:{ logged, user }, dispatch } = useContext( AuthContext );
-
+    const { user:{ logged }, dispatch } = useContext( AuthContext );    
+    const { onGet } = useApi(`/users/${localStorage.getItem('userId')}`)
     useEffect(() =>{ onLoad() }, [logged, dispatch])
 
+    
     const onLoad = async () => {
-        if ( localStorage.getItem('logged') && user) {
+        try {
+            const resp = await onGet({newPath: `/users/${localStorage.getItem('userId')}`})
+            if ( !localStorage.getItem('logged') ) throw new Error('logget false')
+            if ( !resp.status ) throw new Error('User not found')
+            
             return dispatch({
                 type: types.login,
                 payload: {
                     logged: true,
                     user: {
-                        ...user
+                        ...resp.data
                     }
                 }
             })
+        } catch (error) {
+            console.log("🚀 ~ file: Navegation.jsx:36 ~ onLoad ~ error:", error)
+            return(
+                dispatch({
+                    type: types.logout
+                }),
+                <Navigate to="/sign-in" />
+            )
         }
-        return(
-            dispatch({
-                type: types.logout
-            }),
-            <Navigate to="/sign-in" />
-        )
     }
 
     return (

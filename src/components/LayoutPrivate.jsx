@@ -7,7 +7,6 @@ import SubMenu from 'antd/es/menu/SubMenu';
 import { Avatar, Layout, Menu } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 
-
 const { Header, Content } = Layout;
 
 export const LayoutPrivate = ({ children }) => {
@@ -17,6 +16,7 @@ export const LayoutPrivate = ({ children }) => {
     const handleLogOut = () => {
         return(
             localStorage.removeItem('logged'),
+            localStorage.removeItem('user'),
             dispatch({
                 type: types.logout
             }),
@@ -38,7 +38,7 @@ export const LayoutPrivate = ({ children }) => {
                         key={2}
                         title={ 
                             <span> 
-                                <Avatar className='avatar'> {user.name[0]}{user.name[1]} </Avatar> {user.name}
+                                <Avatar className='avatar'> {user?.name[0]}{user?.name[1]} </Avatar> {user?.name}
                             </span> 
                         } 
                     >

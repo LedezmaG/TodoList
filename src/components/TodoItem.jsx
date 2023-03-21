@@ -14,9 +14,13 @@ import services from '../services/Api';
 import { ConfirmMsg } from './ConfirmMsg';
 
 export const TodoItem = ({ id, isDone, message, setNotification, notification, onReload }) => {
+
     const { user:{user} } = useContext( AuthContext );
 
-    const [editMode, setEditMode] = useState(false)
+    const [state, setState] = useState({
+        edit: false,
+        loading: false
+    })
     const formValues = {
         message: '',
     }
@@ -30,6 +34,7 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
     const onDone = async () => {
         try {
             setNotification({...notification, state: false})
+            setState({...state, loading: true})
             const resp = await services.put(
                 `/users/${user.id}/task/${id}`,
                 {
@@ -37,9 +42,11 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
                 }
             )
             setNotification({...notification, state: true, type: 'ok', msg:'Tarea actualizada'})
+            setState({...state, loading: false})
             onReload()
             if (resp.status !== 200) throw new Error("No se pudo establecer conexion")
         } catch (error) {
+            setState({...state, loading: false})
             setNotification({...notification, state: true, type: 'error', msg: error.message})
         }
     }
@@ -47,18 +54,20 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
     const onEdit = async ( message, resetForm ) => {
         try {
             setNotification({...notification, state: false})
+            setState({...state, loading: true})
             const resp = await services.put(
                 `/users/${user.id}/task/${id}`,
                 {
                     task: message,
                 }
             )
-            setEditMode(false)
+            setState({...state, loading: false, edit: false})
             setNotification({...notification, state: true, type: 'ok', msg:'Tarea actualizada'})
             resetForm()
             onReload()
             if (resp.status !== 200) throw new Error("No se pudo establecer conexion")
         } catch (error) {
+            setState({...state, loading: false})
             setNotification({...notification, state: true, type: 'error', msg: error.message})
         }
     }
@@ -66,13 +75,16 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
     const onDelete = async () => {
         try {
             setNotification({...notification, state: false})
+            setState({...state, loading: true})
             const resp = await services.delete(
                 `/users/${user.id}/task/${id}`
             )
             if (resp.status !== 200) throw new Error("No se pudo establecer conexion")
+            setState({...state, loading: false})
             setNotification({...notification, state: true, type: 'ok', msg:'Tarea eliminada'})
             onReload()
         } catch (error) {
+            setState({...state, loading: false})
             setNotification({...notification, state: true, type: 'error', msg: error.message})
         }
     }
@@ -90,7 +102,8 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
                     />
                 </div>
                 <div className="item-body">
-                    { editMode 
+
+                    { state.edit 
                         ? <Formik
                             initialValues={formValues}
                             validationSchema={validation}
@@ -113,13 +126,14 @@ export const TodoItem = ({ id, isDone, message, setNotification, notification, o
                         </Formik>
                         : <h3 className={ isDone && 'card-done'}> {message} </h3>
                     }
+                    { (state.loading) && <span> Cargando... </span>}
                 </div>
                 <span className='item-op'>
                     <MyButton
                         shape="circle" 
                         size='large' 
                         icon={<EditOutlined />} 
-                        onClick={() => setEditMode(!editMode)}
+                        onClick={() => setState({...state, edit: true})}
                     />
                     <ConfirmMsg
                         title='Eliminar'

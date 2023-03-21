@@ -19,7 +19,7 @@ import deco2 from '../assets/deco-2.svg'
 export const Home = () => {
 
     const { user:{ user } } = useContext( AuthContext );
-    const { data, loading, error, onReload } = useApi(`/users/${user.id}/task`)
+    const { data, loading, error, onReload, onPost } = useApi(`/users/${user.id}/task`)
     const [messages, setMessages] = useState({
         state: false,
         msg: ''
@@ -39,7 +39,11 @@ export const Home = () => {
             .required('Campo requerido'),
     })
 
-    useEffect(() => { setMessages({...messages, state: true, msg: `Bienvenido ${user.name}`}) }, [])
+    useEffect(() => welcomeMsg(),[])
+    const welcomeMsg = () => {
+        setMessages({...messages, state: true, msg: `Bienvenido ${user.name}`})
+        setTimeout(()=>{ setMessages({...messages, state: false}) }, 1000)
+    }
     useEffect(() => { 
         if (error) {
             setNotification({...notification, state: true, type: 'error', msg: error})
@@ -49,17 +53,22 @@ export const Home = () => {
     const handleSubmit = async (values, resetForm) => {
         try {
             setNotification({...notification, state: false})
-            const resp = await services.post(
-                `/users/${user.id}/task`,
-                {
+            setMessages({...messages, state: true, msg: `Cargando...`})
+            const resp = await onPost({
+                newPath: `/users/${user.id}/task`,
+                data: {
                     task: values.message,
                     is_done: false,
                 }
-            )
-            if (resp.status !== 201) throw new Error("No se pudo establecer error")
+            })
             resetForm()
             onReload()
-            setNotification({...notification, state: true, type: 'ok', msg: 'Tarea creada'})
+            if (resp.status) setNotification({
+                ...notification, 
+                state: true, 
+                type: 'ok', 
+                msg:'Tarea actualizada'
+            })
         } catch (error) {
             setNotification({...notification, state: true, type: 'error', msg: error.message})
         }
@@ -110,7 +119,7 @@ export const Home = () => {
                 <img src={dividerBottom} alt="divider" className='divider' />
             </Col>
             <Col span={24} className="list-section" >
-                {(!loading && data.length > 0) && data.map((item) => <TodoItem 
+                {(data.length > 0) && data.map((item) => <TodoItem 
                         key={item.id} 
                         id={item.id}
                         isDone={item.is_done}
@@ -120,6 +129,7 @@ export const Home = () => {
                         setNotification={setNotification}
                     />
                 )}
+                {( loading ) && <span>Cargando...</span>}
             </Col>
         </Row>
     )

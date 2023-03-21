@@ -26,8 +26,8 @@ export const Login = () => {
     }, [error])
 
     const formValues = {
-        user: 'Juston89',
-        pswd: '8dIt8tk2ZGm37YA',
+        user: 'Blanca56',
+        pswd: 'ZUPbaVDWihp0yrB',
     }
 
     const validation = Yup.object({
@@ -47,6 +47,7 @@ export const Login = () => {
             const isValid = data.filter((user) => ((values.user === user.user && values.pswd === user.password ) && user) )
             if (isValid.length === 0 ) throw new Error("Usuario no existe, Intenta con usuaro o contraseña diferente")
             localStorage.setItem('logged', true)
+            localStorage.setItem('userId', isValid[0].id)
             dispatch({
                 type: types.login,
                 payload: {

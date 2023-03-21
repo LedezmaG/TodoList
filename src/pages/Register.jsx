@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../auth/AuthContext';
 
 import { Form, Formik } from 'formik'
@@ -10,17 +10,20 @@ import services from '../services/Api';
 import { MessageAlert } from '../components/MessageAlert';
 import { types } from '../types/types';
 import { MyButton } from '../components/MyButton';
+import { useApi } from '../hooks/useApi';
 
 
 
 export const Register = () => {
 
     const { dispatch } = useContext( AuthContext );
+    const { error, onPost } = useApi()
     const [notification, setNotification] = useState({
         state: false,
         type: '',
         msg: ''
     })
+    
     const formValues = {
         user: '',
         name: '',
@@ -44,20 +47,28 @@ export const Register = () => {
             .oneOf([Yup.ref('pswd')], "Las contraseñas no son iguales")
             .required('Campo requerido'),
     })
-
+    useEffect(() => { 
+        if (error) {
+            setNotification({...notification, state: true, type: 'error', msg: error})
+        }
+    }, [error])
     const handleRegister = async (values) => {
         try {
             setNotification({...notification, state: false})
-            const resp = await services.post(
-                '/users',
-                {
+            const resp = await onPost({
+                newPath: '/users',
+                data: {
                     name: values.name,
                     user: values.user,
                     password: values.pswd
                 }
-            )
-            if (resp.status !== 201) throw new Error("No se pudo establecer error")
-            setNotification({...notification, state: true, type: 'ok', msg: 'Usuario creado con exito'})
+            })
+            if (resp.status) setNotification({
+                    ...notification, 
+                    state: true, 
+                    type: 'ok', 
+                    msg: 'Usuario creado con exito'
+                })
             localStorage.setItem('logged', true)
             dispatch({
                 type: types.login,
